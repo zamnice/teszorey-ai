@@ -1,11 +1,11 @@
 // script.js
 
 // API Key - Ganti dengan API Key Anda
-const apiKey = 'YOUR_API_KEY'; // <-- Ganti dengan API Key Anda
+const apiKey = 'AIzaSyB34InSIBQkm5S0dpHvXmR1aFYu5r2NB_s'; // <-- Ganti dengan API Key Anda
 
 // Fungsi untuk mengirim pesan ke AI
 async function sendMessage(message) {
-    const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.0-pro:generateContent?key=' + apiKey;
+    const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemma-1.1-2b:generateContent?key=' + apiKey;
     const data = {
         contents: [{
             parts: [{ text: message }]
