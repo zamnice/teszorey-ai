@@ -1,10 +1,10 @@
 // script.js
 // Ambil API Key dari environment variable
-const apiKey = process.env.GEMMA_API_KEY;
+const apiKey = 'AIzaSyB34InSIBQkm5S0dpHvXmR1aFYu5r2NB_s'
 
 // Fungsi untuk mengirim pesan ke AI
 async function sendMessage(message) {
-    const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemma-1.1-1b:generateContent?key='+apiKey;
+    const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemma-1.1-1b:generateContent?key=' + apiKey;
     const data = {
         contents: [{
             parts: [{ text: message }]
@@ -26,6 +26,11 @@ async function sendMessage(message) {
     } catch (error) {
         console.error('Error:', error);
         return '1105 Maaf nih, Mungkin sedang ada yang gak beres, Coba lagi nanti ya.';
+    }
+    catch (error) {
+        console.error('Error:', error);
+        alert('Terjadi kesalahan: ' + error.message); // Tambahkan ini untuk debugging
+        return 'Maaf, terjadi kesalahan. Coba lagi nanti.';
     }
 }
 
