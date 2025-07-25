@@ -4,6 +4,7 @@ const apiKey = 'AIzaSyDJ0R_S8bcqcRNvwfsv0wWm7YE8pUiZ8Is'; // Ganti dengan API Ke
 
 // Fungsi untuk mengirim pesan ke AI
 async function sendMessage(message) {
+    console.log("API Key:", apiKey); // Tambahkan baris ini
     const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemma-3-1b-it:generateContent?key=' + apiKey;
     const data = {
         contents: [{
@@ -19,8 +20,9 @@ async function sendMessage(message) {
             },
             body: JSON.stringify(data)
         });
-
+        console.log("Response from API:", response); // Tambahkan baris ini
         const result = await response.json();
+        console.log("Result from API:", result); // Tambahkan baris ini
         const aiResponse = result.candidates[0].content.parts[0].text;
         return aiResponse;
     } catch (error) {
@@ -29,6 +31,8 @@ async function sendMessage(message) {
         return '1105 Maaf nih, Mungkin sedang ada yang gak beres, Coba lagi nanti ya.';
     }
 }
+
+// ... kode lainnya tidak berubah ...
 
 // Fungsi untuk menambahkan pesan ke chat log
 function addMessageToChat(message, isUser) {
