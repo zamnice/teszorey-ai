@@ -4,7 +4,7 @@ const apiKey = process.env.GEMMA_API_KEY;
 
 // Fungsi untuk mengirim pesan ke AI
 async function sendMessage(message) {
-    const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemma-1.1-2b:generateContent?key=' + apiKey;
+    const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemma-1.1:generateContent?key=' + apiKey;
     const data = {
         contents: [{
             parts: [{ text: message }]
