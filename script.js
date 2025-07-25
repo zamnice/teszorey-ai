@@ -1,10 +1,10 @@
 // script.js
 // Ambil API Key dari environment variable
-const apiKey = 'GEMMA_API_KEY'
+const apiKey = 'AIzaSyDJ0R_S8bcqcRNvwfsv0wWm7YE8pUiZ8Is'; // Ganti dengan API Key Anda
 
 // Fungsi untuk mengirim pesan ke AI
 async function sendMessage(message) {
-    const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemma-3-1b-it:generateContent?key=to' + apiKey;
+    const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemma-3-1b-it:generateContent?key=' + apiKey;
     const data = {
         contents: [{
             parts: [{ text: message }]
@@ -25,12 +25,8 @@ async function sendMessage(message) {
         return aiResponse;
     } catch (error) {
         console.error('Error:', error);
+        alert('Terjadi kesalahan: ' + error.message);
         return '1105 Maaf nih, Mungkin sedang ada yang gak beres, Coba lagi nanti ya.';
-    }
-    catch (error) {
-        console.error('Error:', error);
-        alert('Terjadi kesalahan: ' + error.message); // Tambahkan ini untuk debugging
-        return 'Maaf, terjadi kesalahan. Coba lagi nanti.';
     }
 }
 
@@ -41,7 +37,7 @@ function addMessageToChat(message, isUser) {
     messageElement.classList.add(isUser ? 'user-message' : 'ai-message');
     messageElement.textContent = message;
     chatLog.appendChild(messageElement);
-    chatLog.scrollTop = chatLog.scrollHeight; // অটো স্ক্রল নিচে
+    chatLog.scrollTop = chatLog.scrollHeight;
 }
 
 // Event listener untuk tombol kirim
