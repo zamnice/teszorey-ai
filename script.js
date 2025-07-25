@@ -4,7 +4,7 @@ const apiKey = 'AIzaSyB34InSIBQkm5S0dpHvXmR1aFYu5r2NB_s'
 
 // Fungsi untuk mengirim pesan ke AI
 async function sendMessage(message) {
-    const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemma-1.1-1b:generateContent?key=to'AIzaSyB34InSIBQkm5S0dpHvXmR1aFYu5r2NB_s';
+    const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemma-3-1b-it:generateContent?key=to'AIzaSyB34InSIBQkm5S0dpHvXmR1aFYu5r2NB_s';
     const data = {
         contents: [{
             parts: [{ text: message }]
