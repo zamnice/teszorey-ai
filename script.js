@@ -1,7 +1,6 @@
 // script.js
-
-// API Key - Ganti dengan API Key Anda
-const apiKey = 'AIzaSyB34InSIBQkm5S0dpHvXmR1aFYu5r2NB_s'; // <-- Ganti dengan API Key Anda
+// Ambil API Key dari environment variable
+const apiKey = process.env.GEMMA_API_KEY;
 
 // Fungsi untuk mengirim pesan ke AI
 async function sendMessage(message) {
