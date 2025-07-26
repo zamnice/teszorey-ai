@@ -55,7 +55,10 @@ nav .logo {
     font-weight: bold;
 }
 
-nav .new-chat-button {
+nav .new-chat-button
+    .share-button
+    .dark-mode-toggle
+    .copy-button {
     background-color: #FF6B00; /* Bright Oren */
     color: white;
     border: none;
@@ -67,7 +70,7 @@ nav .new-chat-button {
     gap: 5px;
 }
 
-nav .new-chat-button .material-symbols-outlined {
+nav .new-chat-button .share-button .dark-mode-toggle .copy-button .material-symbols-outlined {
     font-size: 1.2em;
 }
 
