@@ -4,161 +4,94 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zorey AI - Chatbot AI Assistant</title>
+    <meta name="description" content="Zorey AI adalah chatbot AI canggih berbasis Gemma API">
+    
+    <!-- OG Meta Tags -->
+    <meta property="og:title" content="Zorey AI - Chatbot Pintar">
+    <meta property="og:description" content="Chatbot AI dengan kemampuan terbaik untuk membantu Anda">
+    <meta property="og:image" content="https://zorey-ai.vercel.app/preview.png">
+    <meta property="og:url" content="https://zorey-ai.vercel.app">
+    <meta property="og:type" content="website">
+    
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="icon.png">
-    <meta name="theme-color" content="#FFE8B0">
-    <meta property="og:title" content="Zorey AI - Asisten Belajar Interaktif">
-    <meta property="og:description" content="Zorey AI adalah chatbot pintar berbasis web yang siap membantu kamu dengan gaya yang ringan, cepat, dan modern. Coba sekarang!">
-    <meta property="og:image" content="https://zorey-ai.vercel.app/preview-zorey.png">
-    <meta property="og:url" content="https://zorey-ai.vercel.app/">
-    <meta name="twitter:card" content="summary_large_image">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Sora:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <!-- i18n CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/i18next@21.6.10/i18next.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/i18next-http-backend@1.3.2/i18nextHttpBackend.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-i18next@1.2.1/jquery-i18next.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- Install Prompt -->
+    <div id="install-prompt" class="install-prompt">
+        <p>Pasang Zorey AI di perangkat Anda?</p>
+        <div>
+            <button id="install-cancel">Nanti</button>
+            <button id="install-confirm">Pasang</button>
+        </div>
+    </div>
 
-    <!-- Loading Page -->
-    <div id="loading-page">
-        <img src="logo.png" alt="Zorey AI Logo" class="loading-logo">
+    <!-- Header -->
+    <header class="header">
         <h1>Zorey AI</h1>
-        <div id="install-prompt" class="install-prompt">
-            <p>Pasang Zorey AI di perangkat Anda untuk pengalaman lebih baik</p>
-            <button id="install-button">Pasang Sekarang</button>
+        <div class="header-actions">
+            <button id="new-chat" title="Obrolan Baru">
+                <i class="fas fa-plus"></i>
+            </button>
+            <button id="share-chat" title="Bagikan Chat">
+                <i class="fas fa-share-alt"></i>
+            </button>
+            <button id="translate-btn" title="English/Indonesia">
+                <i class="fas fa-language"></i>
+            </button>
         </div>
-    </div>
+    </header>
 
-    <!-- Slide Menu -->
-    <div id="slide-menu" class="slide-menu">
-        <button class="close-menu">
-            <span class="material-symbols-outlined">close</span>
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="welcome-screen">
+            <div class="welcome-content">
+                <h2>Halo, Kamu bisa bantu aku nggak?</h2>
+                <p>Halo! Tentu saja, saya bisa bantu. Ada apa yang bisa saya lakukan untukmu? Jangan ragu untuk bertanya, ya!</p>
+                
+                <div class="quick-questions">
+                    <button class="quick-question" data-prompt="Buatkan sejarah singkat tentang AI, dalam 100 kata aja biar mudah dipahami">
+                        <i class="fas fa-history"></i> Sejarah Singkat AI
+                    </button>
+                    <button class="quick-question" data-prompt="Halo, Kamu siapa?">
+                        <i class="fas fa-user"></i> Perkenalan
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Container -->
+        <div id="chat-container" class="chat-container" style="display: none;">
+            <div id="chat-messages"></div>
+            
+            <!-- Typing Indicator -->
+            <div id="typing-indicator" class="typing-indicator">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </main>
+
+    <!-- Input Area -->
+    <div class="input-area">
+        <input type="text" id="user-input" placeholder="Tanya apa saja..." class="gradient-placeholder">
+        <button id="send-btn">
+            <i class="fas fa-paper-plane"></i>
         </button>
-        <div class="menu-content">
-            <button id="menu-dark-mode-toggle">
-                <span class="material-symbols-outlined">dark_mode</span>
-                <span class="menu-text">Mode Gelap</span>
-            </button>
-            <button id="menu-copy-button">
-                <span class="material-symbols-outlined">content_copy</span>
-                <span class="menu-text">Salin Chat</span>
-            </button>
-            <button id="menu-share-button">
-                <span class="material-symbols-outlined">share</span>
-                <span class="menu-text">Bagikan</span>
-            </button>
-            <button id="language-toggle">
-                <span class="material-symbols-outlined">translate</span>
-                <span class="menu-text">English/Indonesia</span>
-            </button>
-        </div>
-        <div class="watermark">
-            <img src="logo.png" alt="Zorey Logo">
-        </div>
     </div>
 
-    <!-- Navbar -->
-    <nav>
-        <div class="hamburger-menu" id="hamburger-menu">
-            <span class="material-symbols-outlined">menu</span>
-        </div>
-        <div class="logo">Zorey AI</div>
-        <button class="new-chat-button">
-            <span class="material-symbols-outlined">add</span> 
-            <span class="button-text">Obrolan Baru</span>
-        </button>
-    </nav>
-
-    <!-- Main Chat Container -->
-    <div class="chat-container">
-        <div id="chat-log">
-            <!-- Pesan AI Default -->
-            <div class="ai-message" data-i18n="welcome_message">Halo! Ada yang bisa saya bantu?</div>
-        </div>
-
-        <!-- Input Box -->
-        <div class="input-container">
-            <input type="text" id="user-input" placeholder="Tanya apa saja..." data-i18n="placeholder">
-            <button id="send-button"><span class="material-symbols-outlined">send</span></button>
-        </div>
-    </div>
+    <!-- Footer -->
+    <footer class="footer">
+        <p>V1.0.2 ©2025 All Right Reserved</p>
+        <p>Made by Merakitzam</p>
+    </footer>
 
     <script src="script.js"></script>
-    <script>
-        // Sembunyikan loading page setelah 3 detik
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loading-page').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('loading-page').style.display = 'none';
-                }, 500);
-            }, 3000);
-
-            // PWA Install Prompt
-            let deferredPrompt;
-            const installButton = document.getElementById('install-button');
-            
-            window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                deferredPrompt = e;
-                document.getElementById('install-prompt').style.display = 'block';
-            });
-
-            installButton.addEventListener('click', async () => {
-                if (deferredPrompt) {
-                    deferredPrompt.prompt();
-                    const { outcome } = await deferredPrompt.userChoice;
-                    if (outcome === 'accepted') {
-                        console.log('User accepted the install prompt');
-                    } else {
-                        console.log('User dismissed the install prompt');
-                    }
-                    deferredPrompt = null;
-                }
-            });
-        });
-
-        // Service Worker Registration
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('service-worker.js');
-            });
-        }
-
-        // i18n Initialization
-        i18next
-            .use(i18nextHttpBackend)
-            .init({
-                lng: 'id',
-                fallbackLng: 'en',
-                debug: true,
-                backend: {
-                    loadPath: 'locales/{{lng}}/translation.json'
-                }
-            }, function(err, t) {
-                if (err) console.error(err);
-                // Initial translation
-                updateContent();
-            });
-
-        function updateContent() {
-            document.querySelectorAll('[data-i18n]').forEach(element => {
-                const key = element.getAttribute('data-i18n');
-                element.innerHTML = i18next.t(key);
-            });
-        }
-
-        document.getElementById('language-toggle').addEventListener('click', () => {
-            const currentLang = i18next.language;
-            const newLang = currentLang === 'id' ? 'en' : 'id';
-            i18next.changeLanguage(newLang, updateContent);
-        });
-    </script>
 </body>
 </html>
