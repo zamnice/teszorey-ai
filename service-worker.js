@@ -1,46 +1,79 @@
-// service-worker.js
-const CACHE_NAME = 'zorey-ai-cache-v1';
+const CACHE_NAME = 'zorey-ai-cache-v2';
 const urlsToCache = [
-  'index.html',
-  'style.css',
-  'script.js',
-  'icon.png',
-  'logo.png',
-  'manifest.json',
-  'favicon.ico',
-  'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Sora:wght@700&display=swap',
-  'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined'
+  '/',
+  '/index.html',
+  '/style.css',
+  '/script.js',
+  '/icon.png',
+  '/manifest.json',
+  '/logo.png',
+  '/favicon.ico',
+  '/preview-zorey.png',
+  '/locales/id/translation.json',
+  '/locales/en/translation.json'
 ];
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      console.log('[ServiceWorker] Caching app shell');
-      return cache.addAll(urlsToCache);
-    })
+    caches.open(CACHE_NAME)
+      .then(cache => {
+        return cache.addAll(urlsToCache);
+      })
   );
 });
 
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request)
+      .then(response => {
+        // Cache hit - return response
+        if (response) {
+          return response;
+        }
+
+        // Clone the request
+        const fetchRequest = event.request.clone();
+
+        return fetch(fetchRequest).then(
+          response => {
+            // Check if we received a valid response
+            if(!response || response.status !== 200 || response.type !== 'basic') {
+              return response;
+            }
+
+            // Clone the response
+            const responseToCache = response.clone();
+
+            caches.open(CACHE_NAME)
+              .then(cache => {
+                cache.put(event.request, responseToCache);
+              });
+
+            return response;
+          }
+        );
+      })
+    );
+});
+
 self.addEventListener('activate', event => {
+  const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
-        cacheNames.map(cache => {
-          if (cache !== CACHE_NAME) {
-            console.log('[ServiceWorker] Removing old cache:', cache);
-            return caches.delete(cache);
+        cacheNames.map(cacheName => {
+          if (cacheWhitelist.indexOf(cacheName) === -1) {
+            return caches.delete(cacheName);
           }
         })
       );
     })
   );
-  return self.clients.claim();
 });
 
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request).then(response => {
-      return response || fetch(event.request);
-    })
-  );
+// Listen for message event to trigger skipWaiting
+self.addEventListener('message', (event) => {
+  if (event.data.action === 'skipWaiting') {
+    self.skipWaiting();
+  }
 });
