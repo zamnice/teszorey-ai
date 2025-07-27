@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,28 +18,29 @@
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
 </head>
 <body>
-  <!-- Loading Page -->
+  <!-- Loading -->
   <div id="loading-page">
     <img src="logo.png" alt="Zorey AI Logo" />
     <h1>Zorey AI</h1>
-  </div>  <!-- Hamburger Icon -->  <div class="hamburger" id="hamburger">&#9776;</div>  <!-- Navbar -->  <nav>
-    <div class="logo">Zorey AI</div>
-    <button class="new-chat-button">
-      <span class="material-symbols-outlined">add</span> Obrolan Baru
-    </button>
-  </nav>  <!-- Chat Container -->  <div class="chat-container">
-    <div id="chat-log">
-      <div class="ai-message">Halo! Ada yang bisa saya bantu?</div>
-    </div>
-    <div class="input-container">
-      <input type="text" id="user-input" placeholder="Tanya apa saja..." />
-      <button id="send-button">
-        <span class="material-symbols-outlined">send</span>
-      </button>
-    </div>
-  </div>  <!-- Side Menu -->  <div id="sideMenu" class="side-menu">
+  </div>
+
+  <!-- Header -->
+  <header>
+    <button class="hamburger" id="hamburger">&#9776;</button>
+    <h1 class="logo">Zorey AI</h1>
+    <button class="new-chat" id="new-chat">+ Obrolan Baru</button>
+  </header>
+
+  <!-- Sidebar -->
+  <aside id="sidebar">
     <button class="close-btn" id="closeBtn">&times;</button>
-    <div class="menu-content">
+    <h2>Terbaru</h2>
+    <ul class="history">
+      <li>Sejarah singkat AI</li>
+      <li>Halo, Kamu siapa?</li>
+    </ul>
+    <hr />
+    <div class="settings">
       <button id="copy-button">📋 Salin Chat</button>
       <button id="share-now">🔗 Bagikan</button>
       <button id="toggle-dark">🌙 Mode Gelap</button>
@@ -47,14 +49,36 @@
         <option value="en">🇬🇧 English</option>
       </select>
     </div>
-  </div>  <!-- Watermark -->  <img src="logo.png" alt="Zorey AI" class="watermark" />  <script src="https://unpkg.com/i18next@23.4.6/dist/umd/i18next.min.js"></script>  <script src="script.js"></script>  <script>
+  </aside>
+
+  <!-- Main Chat Area -->
+  <main>
+    <div id="chat-log" class="chat-log">
+      <div class="ai-message">Halo! Ada yang bisa saya bantu?</div>
+    </div>
+    <div class="input-container">
+      <input type="text" id="user-input" placeholder="Tanya apa saja..." />
+      <button id="send-button">
+        <span class="material-symbols-outlined">send</span>
+      </button>
+    </div>
+  </main>
+
+  <!-- Watermark -->
+  <img src="logo.png" alt="Zorey AI" class="watermark" />
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/i18next@23.4.6/dist/umd/i18next.min.js"></script>
+  <script src="script.js"></script>
+  <script>
     window.addEventListener('load', () => {
       setTimeout(() => {
         document.getElementById('loading-page').style.display = 'none';
-      }, 3000);
+      }, 1000);
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('service-worker.js');
       }
     });
-  </script></body>
+  </script>
+</body>
 </html>
