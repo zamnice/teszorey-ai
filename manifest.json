@@ -1,15 +1,19 @@
-{
-  "name": "Zorey AI - Chatbot AI Assistant",
-  "short_name": "Zorey AI",
+"name": "Zorey AI - Chatbot AI Assistant",
+  "short_name": "ZoreyAI",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#FFE8B0",
   "theme_color": "#FFE8B0",
-  "description": "Zorey AI adalah aplikasi web progresif (PWA) cerdas berbasis AI yang membantu pelajar memahami materi, menjawab soal, dan terhubung langsung ke Google Drive. Ringan, bisa diinstall di Mobile/Desktop, dan terus dikembangkan dengan fitur edukatif berbasis teknologi terbaru",
+  "description": "Zorey AI adalah PWA chatbot pintar untuk belajar, menjawab soal, dan membantu aktivitas pelajar modern.",
   "icons": [
     {
-      "src": "icon.png"
+      "src": "icon.png",
       "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "192x192",
       "type": "image/png"
     }
   ]
