@@ -1,0 +1,11 @@
+{
+  "welcome_message": "Halo! Ada yang bisa saya bantu?",
+  "placeholder": "Tanya apa saja...",
+  "copy_success": "Chat berhasil disalin!",
+  "share_not_supported": "Fitur share tidak didukung di browser ini.",
+  "dark_mode": "Mode Gelap",
+  "light_mode": "Mode Terang",
+  "copy_chat": "Salin Chat",
+  "share_chat": "Bagikan",
+  "new_chat": "Obrolan Baru"
+}
