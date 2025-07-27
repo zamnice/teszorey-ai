@@ -1,115 +1,122 @@
-const apiKey = process.env.GEMMA_API_KEY;
+const chatLog = document.getElementById("chat-log");
+const userInput = document.getElementById("user-input");
+const sendButton = document.getElementById("send-button");
 
-// Kirim pesan ke API
-async function sendMessage(message) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemma-3-1b-it:generateContent?key=${apiKey}`;
-  const data = { contents: [{ parts: [{ text: message }] }] };
+const customPrompt = `Kamu adalah Zorey AI, chatbot AI yang ramah, cerdas, dan bisa bantu apa saja. Fokus kamu adalah membantu pelajar dengan cara yang menyenangkan, sopan, tidak membosankan, serta mudah dimengerti.`;
 
-  try {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-    const result = await response.json();
-    const aiResponse = result.candidates[0].content.parts[0].text;
-    return aiResponse;
-  } catch (error) {
-    console.error('Error:', error);
-    return '⚠️ Gagal mendapatkan respon. Coba lagi nanti.';
-  }
-}
+// Kirim chat saat tombol diklik
+sendButton.addEventListener("click", () => {
+  const message = userInput.value.trim();
+  if (!message) return;
+  appendMessage(message, "user");
+  userInput.value = "";
+  sendMessageToAI(message);
+});
 
-function addMessageToChat(message, isUser) {
-  const chatLog = document.getElementById('chat-log');
-  const msg = document.createElement('div');
-  msg.className = isUser ? 'user-message' : 'ai-message';
-  msg.textContent = message;
-  chatLog.appendChild(msg);
+// Tambahkan pesan ke layar
+function appendMessage(message, sender = "ai") {
+  const msgEl = document.createElement("div");
+  msgEl.className = sender === "user" ? "user-message" : "ai-message";
+  msgEl.textContent = message;
+  chatLog.appendChild(msgEl);
   chatLog.scrollTop = chatLog.scrollHeight;
 }
 
-// Tombol kirim
-const sendBtn = document.getElementById('send-button');
-sendBtn.addEventListener('click', async () => {
-  const input = document.getElementById('user-input');
-  const text = input.value.trim();
-  if (!text) return;
-  addMessageToChat(text, true);
-  input.value = '';
-  const reply = await sendMessage(text);
-  addMessageToChat(reply, false);
-});
-
-// Tekan enter
-const userInput = document.getElementById('user-input');
-userInput.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') sendBtn.click();
-});
-
-// Hamburger menu
-const menu = document.getElementById('sideMenu');
-document.getElementById('hamburger').onclick = () => menu.classList.add('open');
-document.getElementById('closeBtn').onclick = () => menu.classList.remove('open');
-
-// Dark mode toggle
-const toggleDark = document.getElementById('toggle-dark');
-toggleDark.addEventListener('click', () => {
-  document.body.classList.toggle('dark-mode');
-});
-
-// Copy chat
-const copyBtn = document.getElementById('copy-button');
-copyBtn.addEventListener('click', () => {
-  const text = document.getElementById('chat-log').innerText;
-  navigator.clipboard.writeText(text).then(() => alert('📋 Chat disalin!'));
-});
-
-// Share chat
-const shareBtn = document.getElementById('share-now');
-shareBtn.addEventListener('click', () => {
-  const text = document.getElementById('chat-log').innerText;
-  if (navigator.share) {
-    navigator.share({ title: 'Zorey AI Chat', text, url: location.href });
-  } else {
-    alert('❌ Fitur share tidak didukung di browser ini.');
-  }
-});
-
-// Ganti Bahasa (sederhana)
-const langSelect = document.getElementById('languageSelect');
-langSelect.addEventListener('change', (e) => {
-  const lang = e.target.value;
-  i18next.init({
-    lng: lang,
-    resources: {
-      id: { translation: { 'Halo! Ada yang bisa saya bantu?': 'Halo! Ada yang bisa saya bantu?' } },
-      en: { translation: { 'Halo! Ada yang bisa saya bantu?': 'Hello! How can I help you?' } }
-    }
-  }, () => {
-    document.querySelectorAll('.ai-message').forEach(el => {
-      el.textContent = i18next.t(el.textContent.trim());
+// Fungsi kirim pesan ke API (melalui /api/gemma proxy)
+async function sendMessageToAI(userText) {
+  appendMessage("⏳ Zorey sedang mengetik...");
+  try {
+    const res = await fetch("/api/gemma", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        prompt: customPrompt,
+        message: userText
+      })
     });
-  });
-});
 
-// Install Prompt PWA
+    const data = await res.json();
+    const response = data.text || "❌ Maaf, tidak ada respon dari AI.";
+    document.querySelector(".ai-message:last-child").remove();
+    appendMessage(response, "ai");
+  } catch (err) {
+    document.querySelector(".ai-message:last-child").remove();
+    appendMessage("⚠️ Terjadi error saat terhubung ke AI.");
+  }
+}
+
+// Sidebar menu
+document.getElementById("hamburger").onclick = () => {
+  document.getElementById("sidebar").classList.add("show");
+};
+document.getElementById("closeBtn").onclick = () => {
+  document.getElementById("sidebar").classList.remove("show");
+};
+
+// Dark Mode toggle
+document.getElementById("toggle-dark").onclick = () => {
+  document.body.classList.toggle("dark-mode");
+  Swal.fire({
+    icon: 'success',
+    title: 'Mode Gelap Aktif!',
+    timer: 1200,
+    showConfirmButton: false
+  });
+};
+
+// Copy Chat
+document.getElementById("copy-button").onclick = () => {
+  const text = [...document.querySelectorAll(".ai-message, .user-message")]
+    .map(e => e.textContent).join("\n");
+  navigator.clipboard.writeText(text);
+  Swal.fire({
+    icon: 'success',
+    title: 'Berhasil Disalin!',
+    text: 'Chat sudah disalin ke clipboard.',
+    timer: 1400,
+    showConfirmButton: false
+  });
+};
+
+// Share Link
+document.getElementById("share-now").onclick = () => {
+  const text = encodeURIComponent("Coba Zorey AI – Chatbot canggih untuk belajar!\n" + location.href);
+  window.open(`https://wa.me/?text=${text}`, "_blank");
+};
+
+// New Chat
+document.getElementById("new-chat").onclick = () => {
+  chatLog.innerHTML = '<div class="ai-message">Halo! Ada yang bisa saya bantu?</div>';
+};
+
+// Ganti bahasa (manual)
+document.getElementById("languageSelect").onchange = (e) => {
+  const lang = e.target.value;
+  if (lang === "id") return location.reload();
+  document.querySelector(".ai-message").textContent = "Hello! How can I assist you?";
+};
+
+// Prompt Install
 let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
+window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
   deferredPrompt = e;
-
-  const installBtn = document.createElement('button');
-  installBtn.textContent = '⬇️ Install Aplikasi Zorey AI';
-  installBtn.style.cssText = 'position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); z-index: 9999; padding: 10px; background: #FF6B00; color: white; border: none; border-radius: 10px;';
-  document.body.appendChild(installBtn);
-
-  installBtn.addEventListener('click', async () => {
-    installBtn.remove();
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    console.log(`Install prompt outcome: ${outcome}`);
-    deferredPrompt = null;
+  Swal.fire({
+    title: "Pasang Zorey AI?",
+    text: "Akses langsung dari layar utama kamu!",
+    icon: "info",
+    showCancelButton: true,
+    confirmButtonText: "Pasang Sekarang",
+    cancelButtonText: "Nanti"
+  }).then(result => {
+    if (result.isConfirmed && deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(choice => {
+        if (choice.outcome === 'accepted') {
+          Swal.fire("Berhasil!", "Zorey AI dipasang di perangkat kamu.", "success");
+        }
+      });
+      deferredPrompt = null;
+    }
   });
 });
-                          
