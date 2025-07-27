@@ -5,7 +5,7 @@
   "display": "standalone",
   "background_color": "#FFE8B0",
   "theme_color": "#FF6B00",
-  "description": "Zorey AI adalah aplikasi web progresif (PWA) cerdas berbasis AI yang membantu pelajar memahami materi, menjawab soal, dan terhubung langsung ke Google Drive. Ringan, bisa diinstall di Mobile/Desktop, dan terus dikembangkan dengan fitur edukatif berbasis teknologi terbaru",
+  "description": "Zorey AI adalah aplikasi web progresif (PWA) cerdas berbasis AI yang membantu pelajar memahami materi, menjawab soal, Ringan, bisa diinstall di Mobile/Desktop, dan terus dikembangkan dengan fitur edukatif berbasis teknologi terbaru",
   "icons": [
     {
       "src": "icon-192x192.png",
