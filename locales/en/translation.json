@@ -1,0 +1,11 @@
+{
+  "welcome_message": "Hello! How can I help you?",
+  "placeholder": "Ask anything...",
+  "copy_success": "Chat copied successfully!",
+  "share_not_supported": "Share feature is not supported in this browser.",
+  "dark_mode": "Dark Mode",
+  "light_mode": "Light Mode",
+  "copy_chat": "Copy Chat",
+  "share_chat": "Share",
+  "new_chat": "New Chat"
+}
